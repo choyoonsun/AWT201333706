@@ -1,0 +1,455 @@
+package calculator;
+
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.Menu;
+import java.awt.MenuBar;
+
+
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+
+
+public class calculator extends JFrame implements ActionListener {
+	JPanel jpButton, jpResult; 
+	JMenuBar jmb; 
+	JMenu jmEdit, jmHelp; 
+	JMenuItem mCopy, mPaste, mHelp, mInfo; 
+	JLabel jlbResult1, jlbResult2; 
+	JButton[] jbButton = null; 
+	String result="";
+	String result1="";
+	String result2="";
+	String number[] = {" ", " ", " "};	
+	String[] numStr = { "←", "CE", "C", "/",
+			"7", "8", "9", "*",
+			"4", "5", "6", "-",
+			"1", "2", "3", "+",
+			"0", "00", ".", "=" }; 
+
+	public calculator(){
+		setTitle("계산기 "); 
+		getContentPane().setLayout(new BorderLayout()); 
+
+		/** 메뉴바 시작*/
+		jmb = new JMenuBar();
+
+		//		jmEdit = new JMenu("편집(E)");
+		//		jmHelp = new JMenu("도움말(H)");
+
+		//		mCopy = new JMenuItem("복사");
+		//		mPaste = new JMenuItem("붙여넣기");
+		//		mHelp = new JMenuItem("도움말 보기");
+		//		mInfo = new JMenuItem("계산기 정보");
+
+		//		jmEdit.add(mCopy); 
+		//		jmEdit.add(mPaste); 
+		//		jmHelp.add(mHelp); 
+		//		jmHelp.add(mInfo); 
+		//		jmb.add(jmEdit); 
+		//		jmb.add(jmHelp); 
+
+		//		setJMenuBar(jmb); 
+		/** 메뉴바 끝 */		
+
+		/** 레이블 시작 */
+		jpResult = new JPanel(new GridLayout(2,1)); 
+		jpResult.setBackground(Color.WHITE); 
+		jlbResult1 = new JLabel("", JLabel.RIGHT); 
+		jlbResult2 = new JLabel("0", JLabel.RIGHT);
+		
+		jpResult.add(jlbResult1); 
+		jpResult.add(jlbResult2); 
+		/** 레이블 끝 */
+
+		/** 버튼 시작 */
+		jpButton = new JPanel(new GridLayout(5, 4, 5, 5)); 
+		jpButton.setBackground(Color.WHITE); 
+		jbButton = new JButton[numStr.length]; 
+
+		
+		for(int i=0; i<numStr.length; i++) {
+			jbButton[i] = new JButton(numStr[i]);
+			
+			jpButton.add(jbButton[i]);
+			jbButton[i].addActionListener(this);
+		}
+
+		/** 버튼 색 시작 */
+		for(int j=0; j<numStr.length; j++) {
+			if(j < 3) {
+				jbButton[j].setForeground(Color.RED);
+			}else if(j==3 || j==7 || j==11 || j==15 || j==19) {
+				jbButton[j].setForeground(Color.BLUE);
+			}
+		}
+		jbButton[0].setForeground(Color.RED);
+		/** 버튼 색 끝 */
+
+
+
+
+		getContentPane().add("North", jpResult);
+		getContentPane().add("Center", jpButton);
+		setSize(300, 400);
+		getContentPane().setBackground(Color.WHITE);
+		setResizable(false);
+		setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+//	JPanel jpButton, jpResult;
+//	JLabel jlbResult1, jlbResult2;
+//	String result="";
+//	String result1="";
+//	String result2="";
+//	String number[] = {" ", " ", " "};
+// public calculator() {
+//  setBounds(0, 0, 400, 400);
+//  setTitle(" 계산기");
+// 
+//  setLayout(null);
+//  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//  setResizable(false);
+//  
+//  JMenuBar MB = new JMenuBar();
+//  JMenu M1 = new JMenu("보기(V)");
+//  JMenu M2 = new JMenu("편집(E)");
+//  JMenu M3 = new JMenu("도움말(H)");
+//  MB.add(M1);
+//  MB.add(M2);
+//  MB.add(M3);
+//  
+//  
+//  setJMenuBar(MB);
+//  
+//
+	
+//  JPanel Pan1 = new JPanel();
+//  Pan1.setBounds(40, 20, 272, 30);
+//  Pan1.setBackground(Color.WHITE);
+//  add(Pan1);
+//  
+//  JLabel L1 = new JLabel();
+//  L1.setText("0");
+//
+//  Pan1.add(L1);
+//
+//  
+//  JTextField Input = new JTextField();
+//  Input.setBounds(40, 20, 275, 30);
+//
+//  
+//  JButton MCB = new JButton("MC"); JButton MRB = new JButton("MR"); JButton MSB = new JButton("MS");
+//  JButton MPlusB = new JButton("M+"); JButton MMinusB = new JButton("M-"); JButton BackB = new JButton("←");
+//  JButton CEB = new JButton("CE"); JButton CB = new JButton("C"); JButton PlusMinusB = new JButton("+-");
+//  JButton VB = new JButton("v"); JButton SlashB = new JButton("/"); JButton PercentB = new JButton("%");
+//  JButton MultyPlicationB = new JButton("*"); JButton OneXB = new JButton("1/x"); JButton MinusB = new JButton("-");
+//  JButton PlusB = new JButton("+"); JButton PeriodB = new JButton("."); JButton EqB = new JButton("=");
+//  
+//  JButton Num0 = new JButton("0");
+//  JButton Num1 = new JButton("1"); JButton Num2 = new JButton("2"); JButton Num3 = new JButton("3");
+//  JButton Num4 = new JButton("4"); JButton Num5 = new JButton("5"); JButton Num6 = new JButton("6");
+//  JButton Num7 = new JButton("7"); JButton Num8 = new JButton("8"); JButton Num9 = new JButton("9");
+//  
+//   
+//  MCB.setBounds(40, 55, 52, 42);  MRB.setBounds(95, 55, 52, 42); MSB.setBounds(150, 55, 52, 42); MPlusB.setBounds(205, 55, 52, 42); MMinusB.setBounds(260, 55, 52, 42); 
+//  BackB.setBounds(40, 100, 52, 42); CEB.setBounds(95, 100, 52, 42); CB.setBounds(150, 100, 52, 42); PlusMinusB.setBounds(205, 100, 52, 42); VB.setBounds(260, 100, 52, 42); 
+//  Num7.setBounds (40, 145, 52, 42); Num8.setBounds (95, 145, 52, 42);  Num9.setBounds(150, 145, 52, 42); SlashB.setBounds(205, 145, 52, 42);  PercentB.setBounds(260, 145, 52, 42);
+//  Num4.setBounds (40, 190, 52, 42); Num5.setBounds (95, 190, 52, 42);  Num6.setBounds(150, 190, 52, 42); MultyPlicationB.setBounds(205, 190, 52, 42); OneXB.setBounds(260, 190, 52, 42);
+//  Num1.setBounds (40, 235, 52, 42); Num2.setBounds (95, 235, 52, 42);  Num3.setBounds(150, 235, 52, 42); MinusB.setBounds(205, 235, 52, 42); EqB.setBounds(260, 235, 52, 88);
+//  Num0.setBounds(40, 280, 108, 42); PeriodB.setBounds(150, 280, 52, 42); PlusB.setBounds(205, 280, 52, 42); 
+//   
+//  
+//  add(MCB); add(MRB); add( MSB); 
+//  add(MPlusB); add(MMinusB); add(BackB); 
+//  add(CEB); add(CB); add(PlusMinusB); 
+//  add(VB); add(SlashB); add(PercentB); 
+//  add(MultyPlicationB); add(OneXB); add(MinusB); 
+//  add(PlusB); add(PeriodB); add(EqB);
+//  
+//  add(Num0);
+//  add(Num1); add(Num2); add(Num3);
+//  add(Num4); add(Num5); add(Num6);
+//  add(Num7); add(Num8); add(Num9);
+//  
+//    
+//  setVisible(true); 
+//}
+
+ 
+ @Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String txtButton = e.getActionCommand();
+
+		if(txtButton.equals("1") || txtButton.equals("2") || txtButton.equals("3") || txtButton.equals("4") || txtButton.equals("5") || txtButton.equals("6")
+				|| txtButton.equals("7") || txtButton.equals("8") || txtButton.equals("9")) {
+			if(result2.equals("0")) {
+				result2="";
+			}
+			result2+=txtButton;
+			jlbResult2.setText(result2);
+		} else if(txtButton.equals("←")) {
+			int len = jlbResult2.getText().length();
+			if(len==1) {
+				result2 = "";
+				jlbResult2.setText("0");
+			} else {
+				if(!"".equals(result2)) {
+					result2 = result2.substring(0, len-1);
+					jlbResult2.setText(result2);
+				}
+			}
+		} else if(txtButton.equals("CE")) {
+			result2 = "";
+			result="";
+			jlbResult2.setText("0");
+			number[0] = "0";
+		} else if(txtButton.equals("C")) {
+			result="";
+			result1="";
+			result2="";
+			jlbResult1.setText("");
+			jlbResult2.setText("0");
+			number[0] = " ";
+			number[1] = " ";
+			number[2] = " ";
+		} else if(txtButton.equals("0") || txtButton.equals("00")) {
+			if(!("".equals(result2))) {
+				if(!"0".equals(result2)){
+					result2+=txtButton;
+					jlbResult2.setText(result2);
+				}
+			} else {
+				result2 = "0";
+			}
+		} else if(txtButton.equals(".")) {
+			if("".equals(result2)) {
+				result2="0"+txtButton;
+			} else {
+				if(result2.indexOf(".")==-1) {
+					result2 += txtButton;
+				}
+			}
+			jlbResult2.setText(result2);
+		} else if(txtButton.equals("=")) {
+			if(!"".equals(result2)) {
+				number[2] = result2;
+			}
+			if("".equals(result1)) {
+				if(!number[1].equals(" ")) {
+					result = Cal();
+					if("0으로 나눌 수 없습니다.".equals(result)) {
+						result="";
+						result1="";
+						result2 = "";
+						number[0] = " ";
+						number[1] = " ";
+						number[2] = " ";
+					} else {
+						number[0] = result;
+						jlbResult2.setText(result);
+					}
+				}
+				jlbResult1.setText(result1);
+			} else {
+				if(" ".equals(number[2])) {
+					number[2] = result2;
+				}
+				result = number[0];
+		
+				if("0으로 나눌 수 없습니다.".equals(result)) {
+					jlbResult2.setText(result);
+					result="";
+					result1="";
+					result2 = "";
+					number[0] = " ";
+					number[1] = " ";
+					number[2] = " ";
+				} else {
+					result = Cal();
+					
+					if(!"0으로 나눌 수 없습니다.".equals(result)) {
+						result1 = "";
+						number[0] = result;
+						jlbResult2.setText(result);
+						jlbResult1.setText(result1);
+						result2 = "";
+					} else {
+						jlbResult2.setText("0으로 나눌 수 없습니다.");
+						jlbResult1.setText("");
+						result="";
+						result1="";
+						result2 = "";
+						number[0] = " ";
+						number[1] = " ";
+						number[2] = " ";
+					}
+					System.out.println("?");
+				}
+			}
+		} else if(txtButton.equals("/") || txtButton.equals("*") || txtButton.equals("-") || txtButton.equals("+")) {
+			if("".equals(result1)) {
+				if("".equals(result2)) {
+					if("".equals(result)) {
+						result1 = "0" + txtButton;
+						number[0] = "0";
+					} else {
+						result1 = result + txtButton;
+					}
+				} else {
+					if(!"".equals(result)) {
+						result1 = result + txtButton; 
+					}
+					result1 = result2 + txtButton;
+					number[0] = result2;
+				}
+				number[1] = txtButton;
+			} else {
+				if("".equals(result2)) {
+					result1 = result1.substring(0, result1.length()-1) + txtButton;
+					number[1] = txtButton;
+				} else {
+					result1 += result2 + txtButton;
+					number[2] = result2;
+					result = Cal();
+					number[1] = txtButton;
+					jlbResult2.setText(result);
+					number[0] = result;
+				}
+			}
+			if(number[1].equals("/") && (number[2].equals(" 0") || number[2].equals("0"))) {
+
+			} else {
+				result2 = "";	
+				jlbResult1.setText(result1);
+			}
+
+		}
+	}
+ public String Cal() {
+		String num = "";
+		String testNum1 = "";
+		String testNum2 = "";
+
+		if(number[0].indexOf(".")!=-1) {
+			int index1 = number[0].indexOf(".");
+
+			testNum1 = number[0].substring(index1, number[0].length());
+
+			if(testNum1.replaceAll("0", "").equals(".")){
+				number[0] = number[0].substring(0, index1);
+			}
+		}
+
+		if(number[2].indexOf(".")!=-1) {
+			int index2 = number[2].indexOf(".");
+
+			testNum2 = number[2].substring(index2, number[2].length());
+
+			if(testNum2.replaceAll("0", "").equals(".")){
+				number[2] = number[2].substring(0, index2);
+			}
+		}
+		if(number[1].equals("*")) {
+			if(number[0].indexOf(".")!=-1 || number[2].indexOf(".")!=-1) {
+				num = (Double.parseDouble(number[0]) * Double.parseDouble(number[2])) + "";
+			} else {
+				if("".equals(number[2])){
+					num = result2;
+				} else {
+					if(!"".equals(result)) {
+						number[0] = result;
+					}
+					num = (Long.parseLong(number[0]) * Long.parseLong(number[2])) + "";
+					result = num;
+					number[0] = result;
+				}
+			}
+		} else if(number[1].equals("+")) {
+			if(number[0].indexOf(".")!=-1 || number[2].indexOf(".")!=-1) {
+				num = (Double.parseDouble(number[0]) + Double.parseDouble(number[2])) + "";
+			} else {
+				if("".equals(number[2])){
+					num = result2;
+				} else {
+					if(!"".equals(result)) {
+						number[0] = result;
+					}
+					num = (Long.parseLong(number[0]) + Long.parseLong(number[2])) + "";
+					result = num;
+					number[0] = result;
+				}
+			}
+		} else if(number[1].equals("-")) {
+			if(number[0].indexOf(".")!=-1 || number[2].indexOf(".")!=-1) {
+				num = (Double.parseDouble(number[0]) - Double.parseDouble(number[2])) + "";
+			} else {
+				if("".equals(number[2])){
+					num = result2;
+				} else {
+					if(!"".equals(result)) {
+						number[0] = result;
+					}
+					num = (Long.parseLong(number[0]) - Long.parseLong(number[2])) + "";
+					result = num;
+					number[0] = result;
+				}
+			}
+		} else if(number[1].equals("/")) {
+			number[2].trim();
+			if(number[0].indexOf(".")!=-1 || number[2].indexOf(".")!=-1) {
+				num = (Double.parseDouble(number[0]) / Double.parseDouble(number[2])) + "";
+			} else {
+				if(number[2].equals("0")) {
+					num = "0으로 나눌 수 없습니다.";
+					result2 = "";
+				} else {
+					if("".equals(number[2])){
+						num = result2;
+					} else {
+						if(!"".equals(result)) {
+							number[0] = result;
+						}
+						num = (Double.parseDouble(number[0]) / Double.parseDouble(number[2])) + "";
+
+						if(num.indexOf(".")!=-1) {
+							int index3 = num.indexOf(".");
+							String testNum3 = num.substring(index3, num.length());
+							if(testNum3.replaceAll("0", "").equals(".")){
+								num = num.substring(0, index3);
+							}
+						}
+						result = num;
+						number[0] = result;
+					}
+				}
+			}
+		}
+		return num;
+	} 
+ 
+ public static void main(String[] args) {
+  
+  calculator Calculation = new calculator();
+
+ }
+
+}
+
